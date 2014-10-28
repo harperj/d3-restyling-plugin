@@ -1,0 +1,34 @@
+.loadingOverlay
+{
+    position: absolute;
+    opacity: 0.8;
+    background-color: black;
+    z-index: 5000;
+}
+
+#deconNotifier
+{
+    position: fixed;
+    z-index: 1000;
+    left: 20px;
+    top: 20px;
+    background-color: #DDD;
+}
+
+.deconText
+{
+    position: relative;
+    left: 50%;
+    top: 50%;
+    margin-top: -47px;
+    margin-left: -153px;
+    font-size: 30pt;
+    color: white;
+    font-family: 'Helvetica Neue', sans-serif;
+    -webkit-animation: fadein 2s;
+}
+
+.fixedDeconText
+{
+    position: fixed;
+}
