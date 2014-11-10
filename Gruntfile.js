@@ -5,7 +5,7 @@ module.exports = function(grunt) {
                 debug: true
             },
             injected: {
-                src: ['node_modules/decon-plugin/js/injected.js'],
+                src: ['node_modules/d3-deconstructor/js/injected.js'],
                 dest: 'dist/injected.js'
             },
             ngapp: {

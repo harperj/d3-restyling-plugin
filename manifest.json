@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
 
-    "name": "D3 Deconstructor",
+    "name": "D3 Restyler",
     "description": "This extension allows the user deconstruct D3 visualizations on a page.",
     "version": "1.0",
     "icons": {
@@ -12,13 +12,13 @@
     "content_scripts": [
         {
             "matches": ["file:///*/*", "http://*/*", "https://*/*"],
-            "css": ["content.css"],
+            "css": ["node_modules/d3-deconstructor/content.css"],
             "js": ["js/content.js", "node_modules/jquery/dist/jquery.js"]
         }
     ],
 
     "background": {
-        "scripts": ["node_modules/decon-plugin/js/background.js"]
+        "scripts": ["node_modules/d3-deconstructor/js/background.js"]
     },
 
     "browser_action": {

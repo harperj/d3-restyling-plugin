@@ -2,7 +2,7 @@
     <h3 class="sectionHeader">Mappings:</h3>
     <div class="panel-group" id="mappings" ng-repeat="mapping in data[selectedSchema.val].mappings">
         <div class="panel panel-default">
-            <div ng-if="!isLinear(mapping)" class="nominal panel-heading btn-toolbar">
+            <div ng-if="!isLinear(mapping)" class="nominal panel-heading">
                 <a data-toggle="collapse" style="color:black;" data-parent="#mappings" href="#mapping{{$index}}">
                     {{mapping.data}} &#10141; {{mapping.attr}}
                     <button ng-click="removeMapping(mapping)" style="border: 0;float: right;background-color:inherit;"
@@ -11,7 +11,7 @@
                     </button>
                 </a>
             </div>
-            <div ng-if="isLinear(mapping)" class="linear panel-heading btn-toolbar">
+            <div ng-if="isLinear(mapping)" class="linear panel-heading">
                 <a data-toggle="collapse" style="color:black;" data-parent="#mappings" href="#mapping{{$index}}">
                     <span ng-repeat="datum in mapping.data">{{datum}}<span ng-if="!$last">,</span> </span> &#10141; {{mapping.attr}}
                     <button ng-click="removeMapping(mapping)" style="border: 0;float: right;background-color:inherit;"
