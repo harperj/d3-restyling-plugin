@@ -1,4 +1,3 @@
-var angular = require('angular');
 var _ = require('underscore');
 
 var restylingApp = angular.module('restylingApp');

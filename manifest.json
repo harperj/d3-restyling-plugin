@@ -13,7 +13,7 @@
         {
             "matches": ["file:///*/*", "http://*/*", "https://*/*"],
             "css": ["node_modules/d3-deconstructor/content.css"],
-            "js": ["js/content.js", "node_modules/jquery/dist/jquery.js"]
+            "js": ["node_modules/d3-deconstructor/js/content.js", "js/content.js", "node_modules/jquery/dist/jquery.js"]
         }
     ],
 

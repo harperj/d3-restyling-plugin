@@ -4,10 +4,14 @@ module.exports = function(grunt) {
             options: {
                 debug: true
             },
-            injected: {
+            deconinjected: {
                 src: ['node_modules/d3-deconstructor/js/injected.js'],
                 dest: 'dist/injected.js'
             },
+	        restylinginjected: {
+	            src: ['js/injected.js'],
+                dest: 'dist/restyling-injected.js'
+	        },
             ngapp: {
                 src: ['js/app.js'],
                 dest: 'dist/app.js'

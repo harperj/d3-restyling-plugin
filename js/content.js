@@ -1,43 +1,23 @@
-"use strict";
+injectRestylingScript();
 
-doInject();
+chrome.runtime.onConnect.addListener(function(port) {
+    console.assert(port.name === "d3decon");
 
-if (window === top) {
-    chrome.extension.onRequest.addListener(function(req, sender, sendResponse) {
-        if (req.type == "pageActionClicked") {
+    port.onMessage.addListener(function(msg) {
+        if (msg.type === "update") {
             var evt = document.createEvent("CustomEvent");
-            evt.initCustomEvent("pageDeconEvent", true, true);
+            evt.initCustomEvent("updateEvent", true, true, msg);
             document.dispatchEvent(evt);
-        }
-        else if (req.type == "deconstructVis") {
-            var evt = document.createEvent("CustomEvent");
-            evt.initCustomEvent("nodeDeconEvent", true, true);
-            document.dispatchEvent(evt);
+            console.log("dispatched update event");
+            console.log(msg);
         }
     });
-}
+});
 
-function initRestylingInterface(visData) {
-    chrome.runtime.sendMessage({type: "initView"}, function() {
-        chrome.runtime.sendMessage({
-            type:"loadingInit",
-            data: {}
-        });
-
-        setTimeout(function() {
-            chrome.runtime.sendMessage({type: "restylingData", data: visData});
-            jQuery(".loadingOverlay").remove();
-        }, 500);
-    });
-}
-
-function doInject() {
+function injectRestylingScript() {
     var script;
     script = document.createElement('script');
     script.type = 'text/javascript';
-    script.src = chrome.extension.getURL('dist/injected.js');
-    document.addEventListener('deconDataEvent', function(event) {
-        initRestylingInterface(event.detail);
-    });
+    script.src = chrome.extension.getURL('dist/restyling-injected.js');
     return document.body.appendChild(script);
 }

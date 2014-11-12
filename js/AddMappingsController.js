@@ -1,4 +1,3 @@
-var angular = require('angular');
 var _ = require('underscore');
 
 var restylingApp = angular.module('restylingApp');
@@ -12,12 +11,6 @@ restylingApp.controller('AddMappingsController', ['$scope', 'VisDataService',
     $scope.visDataService = visDataService;
     $scope.data = visDataService.visData;
     $scope.selectedSchema = visDataService.selectedSchema;
-
-    $scope.$watch(function () { return visDataService.ids }, function (newVal, oldVal) {
-        if (typeof newVal !== 'undefined') {
-            $scope.ids = visDataService.ids;
-        }
-    });
 
     $scope.linearMappingAvailable = function() {
         var schema = visDataService.getSelected();

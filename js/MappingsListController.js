@@ -1,4 +1,3 @@
-var angular = require('angular');
 var _ = require('underscore');
 
 var restylingApp = angular.module('restylingApp');
@@ -70,6 +69,8 @@ restylingApp.controller('MappingsListController', ['$scope', 'VisDataService',
                     }
                 });
 
+                console.log("change inds:");
+                console.log(changeInds);
                 var ids = _.map(changeInds, function (ind) {
                     return $scope.data[mappingSchemaInd].ids[ind]
                 });

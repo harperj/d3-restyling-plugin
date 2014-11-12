@@ -6,7 +6,7 @@
 var $ = require('jquery');
 var _ = require('underscore');
 var d3 = require('d3');
-var VisDeconstruct = require('./VisDeconstruct');
+var VisDeconstruct = require('d3-decon-lib');
 
 var VisUpdater = function(svgNode, markNodes, ids, schemas) {
     var currentNodes = new Array(markNodes.length);

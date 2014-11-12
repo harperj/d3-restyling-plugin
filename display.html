@@ -8,27 +8,31 @@
     <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css"/>
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/d3-deconstructor/js/layout_fixer.js"></script>
     <script src="dist/app.js"></script>
 
 </head>
 <body>
+
 <span ng-controller="DataLoadingController">
 <div id="loading-screen"
-     ng-if="visDataService.dataLoading.val"
-     style="width:100%; height:100%; background-color: white; position:absolute; z-index: 5000; top:0; left:0; overflow:hidden;">
-    <div style="left: 50%; top: 50%; font-size: 30pt;" >Loading...</div>
+     ng-if="visDataService.dataLoading.val">
+    <div style="display: table-cell; vertical-align: middle; text-align:center; font-size: 30pt;" >Loading...</div>
 </div>
 </span>
 
+
+
+
 <div id="wrapper">
-    <div id="sidebar-wrapper">
-        <span ng-include src="'partials/mappingsList.html'"></span>
+    <div id="page-content">
+        <div ng-include src="'node_modules/d3-deconstructor/partials/dataTable.html'"></div>
     </div>
-    <div id="page-content-wrapper">
-        <div class="page-content">
-            <div ng-include src="'node_modules/d3-deconstructor/partials/dataTable.html'"></div>
-        </div>
-    </div>
+</div>
+<div id="sidebar">
+    <span ng-include src="'partials/mappingsList.html'"></span>
+    <span ng-include src="'partials/addMappings.html'"></span>
 </div>
 </body>
 </html>
