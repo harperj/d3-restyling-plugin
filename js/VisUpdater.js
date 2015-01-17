@@ -6,9 +6,9 @@
 var $ = require('jquery');
 var _ = require('underscore');
 var d3 = require('d3');
-var VisDeconstruct = require('d3-decon-lib');
+var VisDeconstruct = require('d3-decon-lib').Deconstruct;
 
-var VisUpdater = function(svgNode, markNodes, ids, schemas) {
+var VisUpdater = function(svgNode, markNodes, ids, groups) {
     var currentNodes = new Array(markNodes.length);
     _.each(markNodes, function (markNode, ind) {
         currentNodes[ind] = markNode;
@@ -16,10 +16,10 @@ var VisUpdater = function(svgNode, markNodes, ids, schemas) {
 
     function getAttrsFromId(id) {
         var attrs = { };
-        _.each(schemas, function (schema) {
-            var ind = schema.ids.indexOf(id);
+        _.each(groups, function (group) {
+            var ind = group.ids.indexOf(id);
             if (ind !== -1) {
-                _.each(schema.attrs, function (val, attr) {
+                _.each(group.attrs, function (val, attr) {
                     attrs[attr] = val[ind];
                 });
             }
@@ -27,18 +27,18 @@ var VisUpdater = function(svgNode, markNodes, ids, schemas) {
         return attrs;
     }
 
-    function getSchemaFromId(id) {
-        var schemaInd = -1;
-        _.each(schemas, function (schema, i) {
-            var ind = schema.ids.indexOf(id);
+    function getGroupFromId(id) {
+        var groupInd = -1;
+        _.each(groups, function (group, i) {
+            var ind = group.ids.indexOf(id);
             if (ind !== -1) {
-                schemaInd = i;
+                groupInd = i;
             }
         });
-        return schemaInd;
+        return groupInd;
     }
 
-    function createNodes(nodeIds) {
+    var createNodes = function(nodeIds) {
         var createdNodes = [];
 
         _.each(nodeIds, function(nodeId) {
@@ -52,7 +52,7 @@ var VisUpdater = function(svgNode, markNodes, ids, schemas) {
 
         var visAttrs = VisDeconstruct.extractVisAttrs(createdNodes);
         console.log(visAttrs);
-    }
+    };
 
     function updateNodes(nodeIds, attr, val) {
         _.each(nodeIds, function (nodeId) {
@@ -63,10 +63,10 @@ var VisUpdater = function(svgNode, markNodes, ids, schemas) {
     }
 
     function updateNode(nodeId, changeAttr, changeVal) {
-        var schemaInd = getSchemaFromId(nodeId);
+        var groupInd = getGroupFromId(nodeId);
 
-        var withinSchemaInd = schemas[schemaInd].ids.indexOf(nodeId);
-        schemas[schemaInd].attrs[changeAttr][withinSchemaInd] = changeVal;
+        var withinGroupInd = groups[groupInd].ids.indexOf(nodeId);
+        groups[groupInd].attrs[changeAttr][withinGroupInd] = changeVal;
         redrawNode(nodeId);
     }
 
@@ -75,7 +75,7 @@ var VisUpdater = function(svgNode, markNodes, ids, schemas) {
         var ind = ids.indexOf(nodeId);
         var currentNode = currentNodes[ind];
         var attrs = getAttrsFromId(nodeId);
-        var schema = getSchemaFromId(nodeId);
+        var group = getGroupFromId(nodeId);
         var svg = currentNode.ownerSVGElement;
 
         console.log(currentNode);
@@ -83,8 +83,8 @@ var VisUpdater = function(svgNode, markNodes, ids, schemas) {
 
         currentNode.parentNode.appendChild(newNode);
 
-        var withinSchemaInd = schemas[schema].ids.indexOf(nodeId);
-        _.each(schemas[schema].nodeAttrs[withinSchemaInd], function (val, attr) {
+        var withinGroupInd = groups[group].ids.indexOf(nodeId);
+        _.each(groups[group].nodeAttrs[withinGroupInd], function (val, attr) {
             if (attr === "text") {
                 $(newNode).text(val);
             }

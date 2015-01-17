@@ -4,23 +4,17 @@ var restylingApp = angular.module('restylingApp');
 
 restylingApp.controller('AddTableController', ['$scope', 'VisDataService',
     function($scope, visDataService) {
-        $scope.$watch(function () { return visDataService.visData }, function (newVal, oldVal) {
-            if (typeof newVal !== 'undefined') {
-                $scope.data = visDataService.visData;
-            }
-        });
-        $scope.$watch(function () { return visDataService.ids }, function (newVal, oldVal) {
-            if (typeof newVal !== 'undefined') {
-                $scope.ids = visDataService.ids;
-            }
-        });
+        window.dataScope = $scope;
+        window.visDataService = visDataService;
+        $scope.data = visDataService.visData;
+        $scope.ids = visDataService.ids;
 
-        $scope.createMarks = function(schemaID) {
-            var schema = $scope.data[schemaID];
+        $scope.createMarks = function(groupID) {
+            var group = $scope.data[groupID];
 
             var newIds = [];
             var maxId = _.max($scope.ids);
-            var dataSize = schema.data[_.keys(schema.data)[0]].length;
+            var dataSize = group.data[_.keys(group.data)[0]].length;
             for (var i = 1; i < dataSize+1; ++i) {
                 newIds.push(maxId + i);
             }
@@ -33,34 +27,34 @@ restylingApp.controller('AddTableController', ['$scope', 'VisDataService',
         };
 
         $scope.addCSVDataTable = function() {
-            if (!$scope.loadedSchemaData) {
+            if (!$scope.loadedGroupData) {
                 return false;
             }
 
-            var newSchemaData = _.extend({}, $scope.loadedSchemaData);
+            var newGroupData = _.extend({}, $scope.loadedGroupData);
 
-            var newSchema = {
-                data: newSchemaData,
+            var newGroup = {
+                data: newGroupData,
                 attrs: null,
                 ids: null,
                 nodeAttrs: null,
-                numNodes: $scope.loadedSchemaDataLength,
-                schema: _.keys(newSchemaData)
+                numNodes: $scope.loadedGroupDataLength,
+                schema: _.keys(newGroupData)
             };
 
-            $scope.data.push(newSchema);
-            console.log(newSchema);
+            visDataService.visData.push(newGroup);
+            console.log(newGroup);
         };
 
         $scope.leftOuterJoinCSV = function(key) {
-            if (!$scope.loadedSchemaData) {
+            if (!$scope.loadedGroupData) {
                 return false;
             }
 
             var leftData = visDataService.getSelected().data;
-            var rightData = $scope.loadedSchemaData;
+            var rightData = $scope.loadedGroupData;
             var leftLength = leftData[_.keys(leftData)[0]].length;
-            var rightLength = $scope.loadedSchemaDataLength;
+            var rightLength = $scope.loadedGroupDataLength;
 
             for (var row = 0; row < leftLength; ++row) {
                 var foundMatchingKey = false;
@@ -95,7 +89,7 @@ restylingApp.controller('AddTableController', ['$scope', 'VisDataService',
                 }
             }
             console.log(leftData);
-            visDataService.getSelected().schema = _.keys(leftData);
+            visDataService.getSelected().group = _.keys(leftData);
         };
     }
 ]);

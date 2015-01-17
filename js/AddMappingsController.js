@@ -10,29 +10,29 @@ restylingApp.controller('AddMappingsController', ['$scope', 'VisDataService',
     $scope.newLinearMappingData = [];
     $scope.visDataService = visDataService;
     $scope.data = visDataService.visData;
-    $scope.selectedSchema = visDataService.selectedSchema;
+    $scope.selectedMarkGroup = visDataService.selectedMarkGroup;
 
     $scope.linearMappingAvailable = function() {
-        var schema = visDataService.getSelected();
+        var group = visDataService.getSelected();
         //console.log($scope.dataFieldsSelected);
         //console.log($scope.attrSelected);
         if (!$scope.attrSelected && $scope.dataFieldsSelected.length === 0) {
             return true;
         }
         else if ($scope.attrSelected
-            && typeof schema.attrs[$scope.attrSelected][0] === "number"
+            && typeof group.attrs[$scope.attrSelected][0] === "number"
             && $scope.dataFieldsSelected.length === 0) {
             return true;
         }
         else if (!$scope.attrSelected
             && $scope.dataFieldsSelected.length > 0
-            && typeof schema.data[$scope.dataFieldsSelected[0]][0] === "number") {
+            && typeof group.data[$scope.dataFieldsSelected[0]][0] === "number") {
             return true;
         }
         else if ($scope.attrSelected
             && $scope.dataFieldsSelected.length > 0
-            && typeof schema.attrs[$scope.attrSelected][0] === "number"
-            && typeof schema.data[$scope.dataFieldsSelected[0]][0] === "number") {
+            && typeof group.attrs[$scope.attrSelected][0] === "number"
+            && typeof group.data[$scope.dataFieldsSelected[0]][0] === "number") {
             return true;
         }
         return false;
@@ -40,16 +40,16 @@ restylingApp.controller('AddMappingsController', ['$scope', 'VisDataService',
 
     $scope.attrChange = function($event, oldAttrVal, attr) {
         if ($event.keyCode === 13) { //enter key
-            var schema = visDataService.getSelected();
+            var group = visDataService.getSelected();
             var newAttrVal = angular.element($event.target).val();
             var inds = [];
-            for (var i = 0; i < schema.attrs[attr].length; ++i) {
-                if (schema.attrs[attr][i] === oldAttrVal) {
-                    schema.attrs[attr][i] = newAttrVal;
+            for (var i = 0; i < group.attrs[attr].length; ++i) {
+                if (group.attrs[attr][i] === oldAttrVal) {
+                    group.attrs[attr][i] = newAttrVal;
                     inds.push(i);
                 }
             }
-            var ids = _.map(inds, function(ind) {return schema.ids[ind];});
+            var ids = _.map(inds, function(ind) {return group.ids[ind];});
             visDataService.updateNodes(attr, newAttrVal, ids);
         }
     };
@@ -94,7 +94,7 @@ restylingApp.controller('AddMappingsController', ['$scope', 'VisDataService',
     };
 
     $scope.allowAddField = function() {
-        var selectedVis = visDataService.visData[visDataService.selectedSchema.val];
+        var selectedVis = visDataService.visData[visDataService.selectedMarkGroup.val];
         return $scope.dataFieldsSelected.length === 0
             || ($scope.action === 'linear'
                 &&  $scope.dataFieldsSelected.length <
@@ -129,7 +129,7 @@ restylingApp.controller('AddMappingsController', ['$scope', 'VisDataService',
 
     $scope.addNominalMapping = function($event) {
         if ($event.keyCode === 13) {
-            var schema = visDataService.getSelected();
+            var group = visDataService.getSelected();
             var dataField = $scope.dataFieldsSelected[0];
             var markAttr = $scope.attrSelected;
             var nominalMap = $scope.newNominalMappingData;
@@ -139,10 +139,10 @@ restylingApp.controller('AddMappingsController', ['$scope', 'VisDataService',
             _.each(_.keys(nominalMap), function(keyVal) {
                 var keyInds = [];
                 var keyIds = [];
-                _.each(schema.data[dataField], function(val, valInd) {
+                _.each(group.data[dataField], function(val, valInd) {
                     if (val.toString() === keyVal) {
                         keyInds.push(valInd);
-                        keyIds.push(schema.ids[valInd]);
+                        keyIds.push(group.ids[valInd]);
                     }
                 });
 
@@ -156,13 +156,13 @@ restylingApp.controller('AddMappingsController', ['$scope', 'VisDataService',
                 type: "nominal",
                 params: nominalMap
             };
-            schema.mappings.push(mapping);
+            group.mappings.push(mapping);
         }
     };
 
     $scope.addLinearMapping = function($event) {
         if ($event.keyCode === 13) {
-            var schema = visDataService.getSelected();
+            var group = visDataService.getSelected();
             var dataFields = $scope.dataFieldsSelected;
             var markAttr = $scope.attrSelected;
             var coeffs = $scope.newLinearMappingData;
@@ -171,10 +171,10 @@ restylingApp.controller('AddMappingsController', ['$scope', 'VisDataService',
             });
 
             var attrMin = Number.MAX_VALUE;
-            _.each(schema.ids, function(id, ind) {
+            _.each(group.ids, function(id, ind) {
                 var attrVal = 0;
                 _.each(dataFields, function(dataField, dataFieldInd) {
-                    attrVal += schema.data[dataField][ind] * coeffs[dataFieldInd];
+                    attrVal += group.data[dataField][ind] * coeffs[dataFieldInd];
                 });
                 // Finally add the constant
                 attrVal += coeffs[coeffs.length-1];
@@ -192,8 +192,8 @@ restylingApp.controller('AddMappingsController', ['$scope', 'VisDataService',
                     coeffs: $scope.newLinearMappingData
                 }
             };
-            schema.mappings.push(mapping);
-            visDataService.updateDataWithLinearMapping(mapping, $scope.selectedSchema.val);
+            group.mappings.push(mapping);
+            visDataService.updateDataWithLinearMapping(mapping, $scope.selectedMarkGroup.val);
         }
     };
 

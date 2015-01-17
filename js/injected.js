@@ -24,7 +24,7 @@ function processDeconData() {
     if (!window.deconstruction.updaterRecovered) {
         visData = [];
 
-        $.each(window.deconstruction.deconstruction, function(i, decon) {
+        window.deconstruction.deconstruction.forEach(function(i, decon) {
             visData.push(new VisUpdater(decon.svgNode, decon.dataNodes.nodes, decon.dataNodes.ids, decon.schematizedData));
         });
 

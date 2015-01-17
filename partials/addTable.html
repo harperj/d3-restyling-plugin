@@ -6,25 +6,25 @@
             <input type="file" file-upload id="fileUploader">
             <button ng-click="addCSVDataTable()">Submit</button>
         </label>
-        <!--<div class="dataContainer" ng-if="loadedSchemaData">-->
+        <!--<div class="dataContainer" ng-if="loadedGroupData">-->
             <!--<h3>Loaded schema data:</h3>-->
             <!--<table class="table dataTable">-->
                 <!--<thead ng-click="">-->
                 <!--<tr class="headerRow">-->
-                    <!--<th ng-repeat="(dataField, dataValues) in loadedSchemaData">-->
+                    <!--<th ng-repeat="(dataField, dataValues) in loadedGroupData">-->
                         <!--{{dataField}}-->
                     <!--</th>-->
                 <!--</tr>-->
                 <!--</thead>-->
-                <!--<tr ng-repeat="row in getNumber(loadedSchemaDataLength) track by $index">-->
-                    <!--<td ng-repeat="(dataField, dataValues) in loadedSchemaData">{{dataValues[$parent.$index]}}</td>-->
+                <!--<tr ng-repeat="row in getNumber(loadedGroupDataLength) track by $index">-->
+                    <!--<td ng-repeat="(dataField, dataValues) in loadedGroupData">{{dataValues[$parent.$index]}}</td>-->
                 <!--</tr>-->
             <!--</table>-->
             <!--<br />-->
 
             <!--Create marks from new data using selected schema attributes and mappings.-->
 
-            <!--<div ng-repeat="mapping in data[selectedSchema].mappings">-->
+            <!--<div ng-repeat="mapping in data[selectedMarkGroup].mappings">-->
                 <!--<span ng-repeat="datum in mapping.data">{{datum}}<span ng-if="!$last">,</span> </span> &#10141; {{mapping.attr}}-->
                 <!--<div ng-if="mapping.type === 'linear'">-->
                     <!--Choose new data field:-->

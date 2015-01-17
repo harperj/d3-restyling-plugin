@@ -6,7 +6,7 @@ restylingApp.controller('MappingsListController', ['$scope', 'VisDataService',
     function($scope, visDataService) {
         $scope.data = visDataService.visData;
         $scope.ids = visDataService.ids;
-        $scope.selectedSchema = visDataService.selectedSchema;
+        $scope.selectedMarkGroup = visDataService.selectedMarkGroup;
 
         $scope.linearUpdateCoeffs = [];
 
@@ -25,7 +25,7 @@ restylingApp.controller('MappingsListController', ['$scope', 'VisDataService',
         };
 
         $scope.removeMapping = function(mapping) {
-            var schema = visDataService.visData[visDataService.selectedSchema.val];
+            var schema = visDataService.visData[visDataService.selectedMarkGroup.val];
 
             var replaceVal;
             if (mapping.type === "nominal") {
